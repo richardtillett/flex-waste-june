@@ -1,0 +1,33 @@
+---
+title: "Variants detected in wastewater samples (June 2020)"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(plotly)
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+
+### Wastewater
+
+```{r plotting-some-intersections}
+some_good_ones<-read_tsv("frequencies.txt")
+
+p <- ggplot(fortify(some_good_ones), aes(POS, avg_h2o)) +
+   geom_segment(aes(xend = POS, yend = 0,colour=category), size = 0.4, lineend = "butt")
+fig <- ggplotly(p)
+fig <- fig %>% layout(dragmode = "pan")
+
+fig
+```
+
+
+
